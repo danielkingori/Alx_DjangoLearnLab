@@ -32,7 +32,7 @@ def list_all_books_in_library(library_name):
 
 def get_librarian_for_library(library_name):
     try:
-        library = library.objects.get(name=library_name)
+        library = Librarian.objects.get(library=library_name)
         librarian = library.librarian
         
         print(f"the librarian for the {library_name} library is {librarian.name}")
@@ -47,5 +47,3 @@ if __name__ == "__main__":
     list_all_books_in_library('Main Library')
     get_librarian_for_library('Main Library')
     
-        
-  
