@@ -41,5 +41,5 @@ def register(request):
         form = UserCreationForm()
     return render(request, "register.html", {"form":form})
 
-class Login(login):
+class LoginView(login):
     template_name = "login.html"
