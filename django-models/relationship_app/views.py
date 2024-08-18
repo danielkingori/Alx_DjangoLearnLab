@@ -3,8 +3,10 @@ from django.http import HttpResponse
 from .models import Book
 from .models import Library
 from django.views.generic.detail import DetailView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -41,5 +43,16 @@ def register(request):
         form = UserCreationForm()
     return render(request, "register.html", {"form":form})
 
-class LoginView(login):
-    template_name = "login.html"
+
+    
+# def LoginView(request):
+#     if request.method == 'POST':
+#         form = AuthenticationForm(request, data=request.POST)
+#         if form.is_valid():
+#             user = form.get_user()
+#             login(request, user)
+#             return redirect('home')  # Redirect to the home page after login
+#     else:
+#         form = AuthenticationForm()
+
+#     return render(request, 'relationship_app/login.html', {'form': form})
