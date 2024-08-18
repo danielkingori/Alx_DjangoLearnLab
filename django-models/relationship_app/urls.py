@@ -12,7 +12,7 @@ urlpatterns = [
     path('books/add/<int:pk>/', add_book/, name='add_book'),
     path('books/edit/<int:pk>/', edit_book/, name='edit_book'),
     path('books/delete/<int:pk>/', delete_book, name='delete_book'),
-    path('admin-view/', Admin, name='admin_view'),
+    path('Admin/', Admin, name='admin_view'),
     path('librarian-view/', librarian_view, name='librarian_view'),
     path('member-view/', member_view, name='member_view'),
 ]
