@@ -2,7 +2,8 @@ from relationship_app.models import Author, Book, Librarian, Library
 
 def get_books_by_author(author_name):
     try:
-        author = Author.objects.get(name = author_name)
+        author = Author.objects.get(name=author_name)
+        books = author.objects.filter(author=author)
         books = author.books.all()
         if books.exists():
             print(f"books by {author_name}:")
@@ -47,4 +48,4 @@ if __name__ == "__main__":
     get_librarian_for_library('Main Library')
     
         
-    
+  
