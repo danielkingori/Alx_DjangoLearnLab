@@ -9,6 +9,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import user_passes_test
+from .forms import BookForm
 
 
 # Create your views here.
@@ -103,7 +104,7 @@ def is_member(user):
     return user.userprofile.role == 'Member'
 
 @user_passes_test(is_admin)
-def Admin(request):
+def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
 
 @user_passes_test(is_librarian)

@@ -1,5 +1,4 @@
 # forms.py in relationship_app
-
 from django import forms
 from .models import Book
 
