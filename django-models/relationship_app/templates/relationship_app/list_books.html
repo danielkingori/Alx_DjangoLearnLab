@@ -8,9 +8,18 @@
 <body>
     <h1>Books Available:</h1>
     <ul>
-        {% for book in books %}
-        <li>{{ book.title }} by {{ book.author.name }}</li>
+        {% for library in Library %}
+        <li>{{ library.name }}</li>
         {% endfor %}
+
+
+        {% for book in books %}
+            <li>{{ book.title }} by {{ book.author.name }} in the {{library.name}}</li>
+        {% empty %}
+            <li>No books available.</li>
+        {% endfor %}
+
+       
     </ul>
 </body>
 </html>

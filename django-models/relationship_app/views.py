@@ -14,19 +14,24 @@ from .forms import BookForm
 
 # Create your views here.
 
-def list_books(request):
-    books = Book.objects.all()
-    context = {
-        'books':books
-    }
+# def list_books(request):
+#     books = Book.objects.all()
+#     context = {
+#         'books':books
+#     }
     
-    return render(request, 'relationship_app/list_books.html', context)
+#     return render(request, 'relationship_app/list_books.html', context)
+
+def list_books(request):
+    books = Book.objects.all()  # Fetch all books from the database
+    return render(request, 'relationship_app/list_books.html', {'books': books})
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, "relationship_app/index.html")
 
 class LibraryDetailView(DetailView):
     model = Library
+    library = Library.objects.all()
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
     
@@ -48,17 +53,19 @@ def register(request):
     return render(request, "relationship_app/register.html", {"form":form})
 
     
-# def LoginView(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#             user = form.get_user()
-#             login(request, user)
-#             return redirect('home')  # Redirect to the home page after login
-#     else:
-#         form = AuthenticationForm()
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Redirect to the home page after login
+    else:
+        form = AuthenticationForm()
 
-#     return render(request, 'relationship_app/login.html', {'form': form})
+    return render(request, 'relationship_app/login.html', {'form': form})
+class LoginView(LoginView):
+    template_name = "login.html"
 
 @permission_required('relationship_app.can_add_book')
 def add_book(request):
