@@ -178,3 +178,5 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 # Set to True to enable the browser’s XSS filtering and help prevent cross-site scripting attacks.
 SECURE_BROWSER_XSS_FILTER = True
+# Tells Django to trust the `HTTP_X_FORWARDED_PROTO` header sent by your reverse proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
