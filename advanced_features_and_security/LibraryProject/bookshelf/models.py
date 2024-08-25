@@ -1,9 +1,20 @@
+from typing import Any
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import Permission
 
 # Create your models here.
 
-    
+#Get the Permission
+permission = Permission.objects.get(codename='add_post')
+
+#Assign permission to a user
+user.user_permission.add(permission)
+
+#Assign permisson to a group
+group.permissions.add(permission)
+
+
 # class UserManager(BaseUserManager):
 #     def create_user(self, email, password):
 #         if not email:
@@ -20,11 +31,20 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 #         user.save(using=self._db)
 #         return user
         
-   
+class Permission:
+    def __init__(self, can_view=False, can_create=False, can_edit=False, can_delete=False):
+        self.can_view = can_view
+        self.can_edit = can_edit
+        self.can_create = can_create
+        self.can_delete = can_delete
+class Role:
+    def __init__(self) -> None:
+        pass
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     published_date = models.DateField()
+        
 
     def __str__(self):
         return self.title
@@ -64,3 +84,5 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
     def __str__(self):
         return self.username
+    
+    
