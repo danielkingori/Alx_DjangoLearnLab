@@ -80,3 +80,12 @@ def booklist_delete(request, booklist_id):
         booklist.delete()
         return redirect('booklist_list')
     return render(request, 'bookshef/booklist_confirm_delete.html', {'booklist': booklist})
+
+# safe search query
+def safe_search_view(request):
+    query = request.GET.get('query')
+    if query:
+        books = Book.objects.filter(title__icontains=query)
+    else:
+        books = Book.objects.all()
+    return render(request, 'bookshelf/books_list.html',{'books':books})

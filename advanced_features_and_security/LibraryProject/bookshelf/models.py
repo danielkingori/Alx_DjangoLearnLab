@@ -3,34 +3,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import Permission
 
-class Book(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
-    published_date = models.DateField()
-    
-    class Meta:
-        permissions = [
-            ("can_view", "Can view books"),
-            ("can_create", "Can create books"),
-            ("can_edit", "Can edit books"),
-            ("can_delete_books", "Can delete books"), 
-        ]
 
-    def __str__(self):
-        return self.title
-
-class BookList(models.Model):
-    name = models.CharField(max_length=100)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    books =  models.ManyToManyField(Book, related_name="book_lists")
-    
-    class Meta:
-        permissions = [
-            ("can_view_booklists", "Can view books lists"),
-            ("can_create_booklists", "Can create book lists"),
-            ("can_edit_booklists", "Can edit book lists"),
-            ("can_delete_booklists", "Can delete book lists"),
-        ]
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, date_of_birth, password=None, **extra_fields):
         if not email:
@@ -68,3 +41,33 @@ class CustomUser(AbstractUser):
         return self.username
     
     
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+    published_date = models.DateField()
+    
+    class Meta:
+        permissions = [
+            ("can_view", "Can view books"),
+            ("can_create", "Can create books"),
+            ("can_edit", "Can edit books"),
+            ("can_delete_books", "Can delete books"), 
+        ]
+
+    def __str__(self):
+        return self.title
+
+class BookList(models.Model):
+    name = models.CharField(max_length=100)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    books =  models.ManyToManyField(Book, related_name="book_lists")
+    
+    class Meta:
+        permissions = [
+            ("can_view_booklists", "Can view books lists"),
+            ("can_create_booklists", "Can create book lists"),
+            ("can_edit_booklists", "Can edit book lists"),
+            ("can_delete_booklists", "Can delete book lists"),
+        ]
+    def __str__(self):
+        return self.name

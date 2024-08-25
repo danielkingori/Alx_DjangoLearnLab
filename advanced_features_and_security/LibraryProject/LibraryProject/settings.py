@@ -140,3 +140,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
+
+# Enable the XSS Filter
+# The SECURE_BROWSER_XSS_FILTER setting is used to enable the X-XSS-Protection header, which helps prevent reflected XSS attacks.
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevent Clickjacking
+# The X_FRAME_OPTIONS setting is used to control whether your site can be embedded in an iframe.
+# 'DENY' ensures that your pages cannot be displayed in an iframe.
+# 'SAMEORIGIN' allows embedding only if the iframe is from the same origin.
+X_FRAME_OPTIONS = 'DENY'  # or 'SAMEORIGIN'
+
+# Prevent Content-Type Sniffing
+# The SECURE_CONTENT_TYPE_NOSNIFF setting is used to enable the X-Content-Type-Options header, which prevents browsers from trying to guess the content type of a response.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enforce HTTPS for CSRF cookies
+CSRF_COOKIE_SECURE = True
+
+# Enforce HTTPS for session cookies
+SESSION_COOKIE_SECURE = True
