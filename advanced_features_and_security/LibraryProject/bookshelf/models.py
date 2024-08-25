@@ -3,52 +3,34 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import Permission
 
-# Create your models here.
-
-#Get the Permission
-permission = Permission.objects.get(codename='add_post')
-
-#Assign permission to a user
-user.user_permission.add(permission)
-
-#Assign permisson to a group
-group.permissions.add(permission)
-
-
-# class UserManager(BaseUserManager):
-#     def create_user(self, email, password):
-#         if not email:
-#             raise ValueError("User must provide an email")
-#         user = self.model(email = self.normalize_email(email))
-#         user.set_password(password)
-#         user.save(using=self._db)
-#         return user
-    
-#     def create_superuser(self, email, password):
-#         user = self.create_user(email, password)
-#         user.is_staff = True
-#         user.is_superuser = True
-#         user.save(using=self._db)
-#         return user
-        
-class Permission:
-    def __init__(self, can_view=False, can_create=False, can_edit=False, can_delete=False):
-        self.can_view = can_view
-        self.can_edit = can_edit
-        self.can_create = can_create
-        self.can_delete = can_delete
-class Role:
-    def __init__(self) -> None:
-        pass
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     published_date = models.DateField()
-        
+    
+    class Meta:
+        permissions = [
+            ("can_view", "Can view books"),
+            ("can_create", "Can create books"),
+            ("can_edit", "Can edit books"),
+            ("can_delete_books", "Can delete books"), 
+        ]
 
     def __str__(self):
         return self.title
+
+class BookList(models.Model):
+    name = models.CharField(max_length=100)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    books =  models.ManyToManyField(Book, related_name="book_lists")
     
+    class Meta:
+        permissions = [
+            ("can_view_booklists", "Can view books lists"),
+            ("can_create_booklists", "Can create book lists"),
+            ("can_edit_booklists", "Can edit book lists"),
+            ("can_delete_booklists", "Can delete book lists"),
+        ]
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, date_of_birth, password=None, **extra_fields):
         if not email:
