@@ -160,3 +160,21 @@ CSRF_COOKIE_SECURE = True
 
 # Enforce HTTPS for session cookies
 SESSION_COOKIE_SECURE = True
+# Set to True to redirect all non-HTTPS requests to HTTPS.
+SECURE_SSL_REDIRECT = True
+# Set an appropriate value, this case 1 year to instruct browsers to only access the site via HTTPS for the specified time.
+SECURE_HSTS_SECONDS = 31536000
+# to include all subdomains in the HSTS policy and to allow preloading.
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+# to ensure session cookies are only transmitted over HTTPS.
+SESSION_COOKIE_SECURE = True
+# to ensure CSRF cookies are only transmitted over HTTPS.
+CSRF_COOKIE_SECURE = True
+# Set to “DENY” to prevent your site from being framed and protect against clickjacking.
+X_FRAME_OPTIONS = 'DENY'
+#  Set to True to prevent browsers from MIME-sniffing a response away from the declared content-type.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# Set to True to enable the browser’s XSS filtering and help prevent cross-site scripting attacks.
+SECURE_BROWSER_XSS_FILTER = True
