@@ -141,6 +141,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "bookshelf.CustomUser"
 
+
+#production env secure settings
+
 # Enable the XSS Filter
 # The SECURE_BROWSER_XSS_FILTER setting is used to enable the X-XSS-Protection header, which helps prevent reflected XSS attacks.
 SECURE_BROWSER_XSS_FILTER = True
