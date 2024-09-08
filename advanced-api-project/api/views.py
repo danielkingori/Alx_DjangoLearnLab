@@ -1,54 +1,48 @@
 from django.shortcuts import render
-# Create your views here.
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
 from .models import Book
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
-from rest_framework.filters import OrderingFilter
-
-
-
-
+from django_filters import rest_framework
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .serializers import BookSerializer
 
 
-class BookListView(ListView):
-    model = Book
-    template_name = 'book_list.html'
+# class BookListView(ListView):
+#     model = Book
+#     template_name = 'book_list.html'
 
-class BookDetailView(DetailView):
-    model = Book
-    template_name = 'book_detail.html'
+# class BookDetailView(DetailView):
+#     model = Book
+#     template_name = 'book_detail.html'
 
-class BookCreateView(CreateView):
-    model = Book
-    fields = ['title', 'author', 'publication_date']
-    template_name = 'book_form.html'
+# class BookCreateView(CreateView):
+#     model = Book
+#     fields = ['title', 'author', 'publication_date']
+#     template_name = 'book_form.html'
     
-    # Custom method to handle form submission
+#     # Custom method to handle form submission
 
-    def form_valid(self, form):
-        if self.request.user.is_authenticated:
-            form.instance.author = self.request.user
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         if self.request.user.is_authenticated:
+#             form.instance.author = self.request.user
+#         return super().form_valid(form)
 
-class BookUpdateView(UpdateView):
-    model = Book
-    fields = ['title', 'author', 'publication_date']
-    template_name = 'book_form.html'
+# class BookUpdateView(UpdateView):
+#     model = Book
+#     fields = ['title', 'author', 'publication_date']
+#     template_name = 'book_form.html'
     
-    # Additional logic for filtering or customizing update behavior can go here
-    def form_valid(self, form):
-        form.instance.updated_by = self.request.user
-        return super().form_valid(form)
+#     # Additional logic for filtering or customizing update behavior can go here
+#     def form_valid(self, form):
+#         form.instance.updated_by = self.request.user
+#         return super().form_valid(form)
 
-class BookDeleteView(DeleteView):
-    model = Book
-    success_url = '/books/' # redirect after deletion
-    template_name = 'book_confirm_delete.html'
+# class BookDeleteView(DeleteView):
+#     model = Book
+#     success_url = '/books/' # redirect after deletion
+#     template_name = 'book_confirm_delete.html'
 
 class BookListView(generics.ListAPIView):
     """
