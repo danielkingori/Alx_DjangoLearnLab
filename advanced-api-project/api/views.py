@@ -5,6 +5,10 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Book
 
 
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from .serializers import BookSerializer
+
 
 class BookListView(ListView):
     model = Book
@@ -40,3 +44,54 @@ class BookDeleteView(DeleteView):
     model = Book
     success_url = '/books/' # redirect after deletion
     template_name = 'book_confirm_delete.html'
+
+class BookListView(generics.ListAPIView):
+    """
+    Retrieve a list of all books.
+    Allows unauthenticated users to read the list.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Anyone can view the list, only authenticated users can create
+class BookDetailView(generics.RetrieveAPIView):
+    """
+    Retrieve details of a single book by ID.
+    Allows unauthenticated users to read the details.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]  # Anyone can view details
+
+class BookCreateView(generics.CreateAPIView):
+    """
+    Create a new book.
+    Only authenticated users can add new books.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can create
+
+    def perform_create(self, serializer):
+        # Optionally assign the logged-in user as the creator
+        serializer.save(created_by=self.request.user)
+
+class BookUpdateView(generics.UpdateAPIView):
+    """
+    Update an existing book.
+    Only authenticated users can update a book.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can update
+
+    def perform_update(self, serializer):
+        # Optionally update the book with the logged-in user as the one making changes
+        serializer.save(updated_by=self.request.user)
+class BookDeleteView(generics.DestroyAPIView):
+    """
+    Delete an existing book.
+    Only authenticated users can delete a book.
+    """
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticated]  # Only authenticated users can delete
