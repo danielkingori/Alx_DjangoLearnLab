@@ -18,47 +18,47 @@ def register(request):
                 creator_group = Group.objects.get(name="reader")
                 user.groups.add(creator_group)
             login(request, user)
-            return redirect("list_posts")
+            return redirect("ListView")
     else:
         form = CustomUserCreationForm()
     return render(request, "blog/register.html", {"form":form})
 
-def list_posts(request):
+def ListView(request):
     posts = Post.objects.all()
-    return render(request, "blog/list_posts.html", {"posts":posts})
+    return render(request, "blog/posts.html", {"posts":posts})
 
 @login_required
 @permission_required("blog.create",raise_exception=True)
-def create_post(request):
+def CreateView(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
             posts = form.save(commit=False)
             posts.author = request.user
             posts.save()
-            return redirect("list_posts")
+            return redirect("ListView")
     else:
         form = PostForm()
     return render(request, "blog/create_post.html",{"form":form})
 @login_required
 @permission_required("blog.edit",raise_exception=True)
-def edit_post(request, pk):
+def UpdateView(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             form.save()
-            return redirect("list_posts")
+            return redirect("ListView")
     else:
         form = PostForm(instance=post)
     return render(request, "blog/edit_post.html", {"form":form})
 @login_required
 @permission_required("blog.delete",raise_exception=True)
-def delete_post(request, pk):
+def DeleteView(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
         post.delete()
-        return redirect("list_posts")
+        return redirect("ListView")
     return render(request, "blog/delete_post.html",{"post":post})
 
 
