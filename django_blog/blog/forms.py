@@ -1,10 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import CustomUser, Post
 
 
 
 class CustomUserCreationForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'date_of_birth', 'profile_photo')
+    ROLES = [
+        ("creator", "Creator"),
+        ("reader", "Reader"),
+    ]
+    role = forms.ChoiceField(choices=ROLES, required=True)
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = UserCreationForm.Meta.fields + (
+            "email", "age", "role")
