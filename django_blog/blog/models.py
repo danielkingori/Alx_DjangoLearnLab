@@ -13,3 +13,11 @@ class Post(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE )
+    author =
+    content = 
+    created_at = 
+    updated_at = 
+    
