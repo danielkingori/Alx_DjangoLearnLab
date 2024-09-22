@@ -44,7 +44,7 @@ LOGIN_REDIRECT_URL = "list_posts"
 LOGOUT_REDIRECT_URL = "/"
 
 
-AUTH_USER_MODEL = "blog.CustomUser"
+# AUTH_USER_MODEL = "blog.CustomUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
