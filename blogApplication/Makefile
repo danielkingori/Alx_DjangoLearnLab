@@ -6,5 +6,5 @@ run:
 
 weka:
 	git add .
-	git commit -m "blogapplication"
+	git commit -m "blogapplicationnew"
 	git push
