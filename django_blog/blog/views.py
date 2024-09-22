@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import login
 from django.contrib.auth.models import Group
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 from .forms import CustomUserCreationForm, PostForm, CommentForm
 
 
