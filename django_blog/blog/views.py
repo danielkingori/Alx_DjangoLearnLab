@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import login
 from django.contrib.auth.models import Group
 from .models import Post
@@ -23,13 +24,17 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, "blog/register.html", {"form":form})
 
+
 def ListView(request):
     posts = Post.objects.all()
     return render(request, "blog/posts.html", {"posts":posts})
 
+
 def DetailView(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, "blog/post.html", {"post":post})
+
+
 
 @login_required
 @permission_required("blog.create",raise_exception=True)
@@ -67,4 +72,34 @@ def DeleteView(request, pk):
 
 
 
-# Create your views here.
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user  # Set the author to the current user
+        return super().form_valid(form)
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'blog/post_form.html'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author  # Ensure only the author can edit the post
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'blog/post_confirm_delete.html'
+    
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author  # Ensure only the author can delete the post
+
